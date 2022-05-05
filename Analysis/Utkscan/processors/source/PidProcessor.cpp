@@ -419,6 +419,7 @@ bool PidProcessor::PreProcess(RawEvent &event) {
 
    EndProcess();
    return true;
+
 }
 
 bool PidProcessor::Process(RawEvent &event) {
