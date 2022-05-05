@@ -136,7 +136,6 @@ void PidProcessor::DeclarePlots(void) {
 
    DeclareHistogram2D(DD_TOF0_PIN0_FLIP, SA, SD, "Flipped Tof0 vs Pin0 dE ");
    DeclareHistogram2D(DD_TOF0_PIN0_GATED_YSO_FLIP, SA, SD, "YSO: Flipped Tof0 vs Pin0 dE ");
-
 }  // Declare plots
 
 PidProcessor::PidProcessor(const double &YSO_Implant_thresh, const double &FIT_thresh, const double &RIT_thresh) : EventProcessor(OFFSET, RANGE, "PidProcessor") {
