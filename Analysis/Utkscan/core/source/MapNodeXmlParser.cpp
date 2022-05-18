@@ -273,8 +273,8 @@ void MapNodeXmlParser::ParseAngulars(const pugi::xml_node &node, ChannelConfigur
         {
             if(isVerbose)
             {
-                sstream_ << "MapNodeXmlParser::ParseAngular : Missing Position (" << positions[i]
-                            << ") in configuration file, using default.";
+                sstream_ << "Angular Location Missing Latch Position: " << positions[i]
+                            << ", using default.";
                 messenger_.detail(sstream_.str(), 2);
                 sstream_.str("");
             }

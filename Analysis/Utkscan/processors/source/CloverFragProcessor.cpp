@@ -31,7 +31,7 @@ using namespace dammIds::cloverFrag;
 namespace dammIds {
 //! Namespace containing histogram definitions for the Clover. We are overriding the CloverProcessor space so the processors are exclusive
 namespace cloverFrag {
-const unsigned int MAX_FRAGCLOVERS = 4;  //!< for *_DETX spectra
+const unsigned int MAX_FRAGCLOVERS = 13;  //!< for *_DETX spectra
 
 const int CLOVER_LOW_OFFSET = 20;  ///!< offset for clover low versions
 
