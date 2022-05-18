@@ -50,7 +50,7 @@ public:
     ///@return the pair of fitting parameters to use in fits.
     std::pair<double, double> GetFittingParameters() const { return fittingParameters_; }
 
-    ///@return the pair of angular parameters, theta, phi, in degrees.
+    ///@return the vectors of angular parameters, theta, phi, in degrees, r in meters.
     std::vector<std::vector<double> > GetAngularParameters() const { return angularParameters_; }
 
     ///@return the frequency for this channel
@@ -119,8 +119,8 @@ public:
     ///@param[in] a : The pair of parameters to set
     void SetFittingParameters(const std::pair<double, double> &a) { fittingParameters_ = a; }
 
-    /// Sets the pair of parameters that are needed for angular positions, in degrees
-    ///@param[in] a : The pair of parameters to set
+    /// Sets the pair of parameters that are needed for angular positions, in degrees, with radius in meters
+    ///@param[in] a : The vector of parameters to set
     void SetAngularParameters(const std::vector<std::vector<double> > &a) { angularParameters_ = a; }
 
     /// Sets the frequency of the module for this channel
