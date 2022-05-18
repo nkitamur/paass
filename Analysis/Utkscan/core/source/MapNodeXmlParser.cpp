@@ -242,7 +242,7 @@ void MapNodeXmlParser::ParseAngulars(const pugi::xml_node &node, ChannelConfigur
     const std::string positions[3] = {std::string("long"), std::string("medium"), std::string("short")};
     for (pugi::xml_node latch = node.child("Latch"); latch; latch = latch.next_sibling("Latch"))
     {
-        std::string positionWord = std::string(latch.text().as_string("none"));
+        std::string positionWord = std::string(latch.attribute("position").as_string("none"));
         std::vector<double> t_vec = {
             latch.attribute("radius").as_double(DefaultConfig::angularRadius),
             latch.attribute("theta").as_double(DefaultConfig::angularTheta),
@@ -264,6 +264,9 @@ void MapNodeXmlParser::ParseAngulars(const pugi::xml_node &node, ChannelConfigur
             }
         } 
     }
+    // run this after the loop getting the latches, 
+    // if we don't have all the latch positions, then 
+    // put in a default latch.
     for(int i = 0; i < 3; i++)
     {
         if(!good[i])
