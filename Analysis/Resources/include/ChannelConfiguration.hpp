@@ -50,6 +50,9 @@ public:
     ///@return the pair of fitting parameters to use in fits.
     std::pair<double, double> GetFittingParameters() const { return fittingParameters_; }
 
+    ///@return the pair of angular parameters, theta, phi, in degrees.
+    std::vector<std::vector<double> > GetAngularParameters() const { return angularParameters_; }
+
     ///@return the frequency for this channel
     int GetModFreq() const { return modFreq_ ; }
 
@@ -115,6 +118,10 @@ public:
     /// Sets the pair of parameters that are needed for fitting analysis
     ///@param[in] a : The pair of parameters to set
     void SetFittingParameters(const std::pair<double, double> &a) { fittingParameters_ = a; }
+
+    /// Sets the pair of parameters that are needed for angular positions, in degrees
+    ///@param[in] a : The pair of parameters to set
+    void SetAngularParameters(const std::vector<std::vector<double> > &a) { angularParameters_ = a; }
 
     /// Sets the frequency of the module for this channel
     ///@param[in] a : The frequency to set 
@@ -199,6 +206,7 @@ private:
     unsigned int discriminationStartInSamples_; ///< The position from the max that we'll do particle discrimination
     TrapFilterParameters energyFilterParameters_; ///< Parameters to use for energy filter calculations
     std::pair<double, double> fittingParameters_; ///< The parameters to use for the fitting routines
+    std::vector<std::vector<double> > angularParameters_; ///< The parameters to use for the angular locations r, theta, phi for each latch.
     int modFreq_; ///<Frequency of the module for this channel 
     unsigned int location_; ///< Specifies the real world location of the channel.
     std::string subtype_; ///< Specifies the detector sub type
