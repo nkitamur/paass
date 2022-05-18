@@ -5,7 +5,7 @@
 ///@date December 6, 2016
 #ifndef PIXIESUITE_HELPERFUNCTIONS_HPP
 #define PIXIESUITE_HELPERFUNCTIONS_HPP
-
+#define _USE_MATH_DEFINES
 #include <algorithm>
 #include <iostream>
 #include <sstream>
@@ -509,6 +509,25 @@ namespace Conversions {
                     ("HelperFunctions::ConvertSecondsWithPrefix : Unknown "
                              "units " + units);
         return val;
+    }
+
+
+    /// Function that will calculate an angle in degrees from an angle
+    /// in radians
+    /// @param[in] radians : The value that we want to convert in radians
+    /// @return The value in degrees.
+    inline double RadiansToDegrees(const double radians)
+    {
+        return (radians * 180.0) / M_PI;
+    }
+
+    /// Function that will calculate an angle in radians from an angle
+    /// in degrees
+    /// @param[in] degrees : The value that we want to convert in degrees
+    /// @return The value in radians.
+    inline double DegreesToRadians(const double degrees)
+    {
+        return (radians * M_PI) / 180.0;
     }
 }
 
