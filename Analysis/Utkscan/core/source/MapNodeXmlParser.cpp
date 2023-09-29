@@ -17,6 +17,7 @@
 using namespace std;
 
 void MapNodeXmlParser::ParseNode(DetectorLibrary *lib) {
+    // get the Map object from the config file
     pugi::xml_node map = XmlInterface::get()->GetDocument()->child("Configuration").child("Map");
 
     if (!map)
@@ -60,7 +61,7 @@ void MapNodeXmlParser::ParseNode(DetectorLibrary *lib) {
             sstream_.str("");
 
         }else if (!isVerbose && module_TdelayNs != globalTraceDelay){
-            if (module_number ==0){
+            if (module_number == 0){
                 sstream_ <<"Modules not using the Global Trace Delay value: ("<<globalTraceDelay<<" ns)";
                 messenger_.detail(sstream_.str(),1);
                 sstream_.str("");
@@ -155,6 +156,11 @@ void MapNodeXmlParser::ParseNode(DetectorLibrary *lib) {
             else if (isVerbose)
                 messenger_.detail("This channel is not walk corrected.", 2);
 
+            if (channel.child("Angular"))
+                ParseAngulars(channel.child("Angular"), chanCfg, isVerbose);
+            else if (isVerbose)
+                messenger_.detail("This channel does not have an angular location.", 2);
+
             lib->Set(module_number, channelNumber, chanCfg);
 
             //Create basic place for TreeCorrelator
@@ -227,6 +233,57 @@ void MapNodeXmlParser::ParseFittingNode(const pugi::xml_node &node, ChannelConfi
                                         const bool &isVerbose) {
     config.SetFittingParameters(make_pair(node.attribute("beta").as_double(DefaultConfig::fitBeta),
                                           node.attribute("gamma").as_double(DefaultConfig::fitGamma)));
+}
+
+/// This Method parses angular nodes. Angular Nodes are used to store angular position for a detector.
+void MapNodeXmlParser::ParseAngulars(const pugi::xml_node &node, ChannelConfiguration &config,
+                                        const bool &isVerbose) {
+    std::vector<std::vector<double> > setvec= {{}, {}, {}};
+    bool good[3] = {false, false, false};
+    const std::string positions[3] = {std::string("long"), std::string("medium"), std::string("short")};
+    for (pugi::xml_node latch = node.child("Latch"); latch; latch = latch.next_sibling("Latch"))
+    {
+        std::string positionWord = std::string(latch.attribute("position").as_string("none"));
+        std::vector<double> t_vec = {
+            latch.attribute("radius").as_double(DefaultConfig::angularRadius),
+            latch.attribute("theta").as_double(DefaultConfig::angularTheta),
+            latch.attribute("phi").as_double(DefaultConfig::angularPhi) 
+        }; 
+        bool latchgood = false;       
+        for(int i = 0; i < 3; i++)
+        {
+            if(positionWord.compare(positions[i]) == 0)
+            {
+                setvec[i].insert(setvec[i].begin(), t_vec.begin(), t_vec.end());
+                good[i] = true;
+                if(isVerbose)
+                {
+                    sstream_ << "Angular Latch Position: " << latch.text() << " R: " << t_vec[0] <<" Theta: " << t_vec[1] << " Phi: " << t_vec[2];
+                    messenger_.detail(sstream_.str(), 2);
+                    sstream_.str("");
+                }
+            }
+        } 
+    }
+    // run this after the loop getting the latches, 
+    // if we don't have all the latch positions, then 
+    // put in a default latch.
+    for(int i = 0; i < 3; i++)
+    {
+        if(!good[i])
+        {
+            if(isVerbose)
+            {
+                sstream_ << "Angular Location Missing Latch Position: " << positions[i]
+                            << ", using default.";
+                messenger_.detail(sstream_.str(), 2);
+                sstream_.str("");
+            }
+            setvec[i].assign(DefaultConfig::angularVecDefault, DefaultConfig::angularVecDefault+3);
+        }
+    }
+
+    config.SetAngularParameters(setvec);
 }
 
 ///This node parses the Trace node. This node contains all of the information necessary for the users to do trace

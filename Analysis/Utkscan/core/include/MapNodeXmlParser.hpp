@@ -52,6 +52,13 @@ private:
     ///@param[in] isVerbose : True if we want verbose messaging
     void ParseCalibrations(const pugi::xml_node &node, const ChannelConfiguration &config, const bool &isVerbose);
 
+    ///Method to parse the Angular node from the xml file
+    ///@param[in] node : The Angular node that we want to parse
+    ///@param[in] config : The channel configuration that we will use to hold all this info.
+    ///@param[in] isVerbose : True if we want verbose messaging
+    void ParseAngulars(const pugi::xml_node &node, ChannelConfiguration &config, const bool &isVerbose);
+
+
     ///Parses the Cfd node from the xml configuration file.
     ///@param[in] node : The node that we are going to parse
     ///@param[in] globals : A pointer to the globals class so we can set the
