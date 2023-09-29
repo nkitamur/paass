@@ -235,6 +235,7 @@ void MapNodeXmlParser::ParseFittingNode(const pugi::xml_node &node, ChannelConfi
                                           node.attribute("gamma").as_double(DefaultConfig::fitGamma)));
 }
 
+/// This Method parses angular nodes. Angular Nodes are used to store angular position for a detector.
 void MapNodeXmlParser::ParseAngulars(const pugi::xml_node &node, ChannelConfiguration &config,
                                         const bool &isVerbose) {
     std::vector<std::vector<double> > setvec= {{}, {}, {}};
